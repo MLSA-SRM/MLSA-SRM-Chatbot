@@ -9,7 +9,7 @@ para = 0.55
 
 #-------------------------------------------------------------------------------------
 import pkg_resources
-pkg_resources.require("tensorflow==1.14")
+# pkg_resources.require("tensorflow==1.14")
 import tensorflow as tf
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
