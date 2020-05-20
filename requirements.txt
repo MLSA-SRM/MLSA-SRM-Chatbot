@@ -1,4 +1,4 @@
 Flask==1.1.2
-tensorflow==2.2.0
+tensorflow==1.14
 joblib==0.15.1
 gunicorn==20.0.4
