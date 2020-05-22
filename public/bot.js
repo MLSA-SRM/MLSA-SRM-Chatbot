@@ -107,7 +107,7 @@ function sendMessage() {
 
         newUserDialogue(msg);
 
-        fetch("https://mspcbotgate.azurewebsites.net/botservice/question", requestOptions)
+        fetch("https://mspcbotmain.azurewebsites.net/botservice/question", requestOptions)
         .then(response => response.json())
         .then(result => {
             var md = new Remarkable();
