@@ -1,16 +1,23 @@
 from flask import Flask, request, render_template, jsonify
-app = Flask(__name__)
+app = Flask(__name__, template_folder='public/')
 
 from flask_cors import CORS
 CORS(app, support_credentials=True)
+
+
 
 import qScript
 import fScript
 import json
 
 @app.route('/')
-def bot():
+def botHome():
     return "Finally Works.."
+
+@app.route('/mspcbot')
+def mspcBot():
+    return render_template('index.html')
+
 
 @app.route('/botservice/question', methods=['POST'])
 def retResponseToQuestion():
