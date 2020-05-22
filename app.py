@@ -1,10 +1,8 @@
 from flask import Flask, request, render_template, jsonify
-app = Flask(__name__, template_folder='public/')
+app = Flask(__name__, template_folder='public/', static_folder='public/')
 
 from flask_cors import CORS
 CORS(app, support_credentials=True)
-
-
 
 import qScript
 import fScript
