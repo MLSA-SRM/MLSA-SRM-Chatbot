@@ -10,7 +10,7 @@ function openForm() {
     var new_chat_gen = document.createElement('div');
     new_chat_gen.id = 'chat-generate';
     chat_container.appendChild(new_chat_gen);
-    newBotDialogue('<p>How we may help you?</p>');
+    newBotDialogue('How may we help you?');
 }
 
 // popup action close
@@ -23,17 +23,24 @@ function closeForm() {
 
 // add bot dialogue to chat
 function newBotDialogue(dialogue) {
+    dialogue = '<p>' + dialogue + '</p>'
+
     var this_dialogue_row = document.createElement('div');
     this_dialogue_row.className = 'row';
 
     var this_dialogue_col = document.createElement('div');
     this_dialogue_col.className = 'col-8 p-1 my-2 border';
 
-    var xmlString = dialogue;
-    var doc = new DOMParser().parseFromString(xmlString, "text/xml");
-    console.log(doc)
+    var htmlString = dialogue;
+    var doc = new DOMParser().parseFromString(htmlString, "text/html");
+    paraSets = doc.getElementsByTagName('p')
+    for (i = 0; i < paraSets.length; ++i) {
+        if(paraSets[i].innerText != '') {
+            var mainPara = paraSets[i];
+        }
+    }
     var this_dialogue_text = document.createElement('div');
-    this_dialogue_text.appendChild(doc.firstChild);
+    this_dialogue_text.appendChild(mainPara);
     this_dialogue_col.appendChild(this_dialogue_text);
 
     var this_dialogue_filler = document.createElement('div');
@@ -60,7 +67,9 @@ function newUserDialogue(dialogue) {
     this_dialogue_filler.className = 'col p-1 my-2';
 
     var this_dialogue_text = document.createTextNode(dialogue.toString());
-    this_dialogue_col.appendChild(this_dialogue_text);
+    var this_para = document.createElement('p')
+    this_para.appendChild(this_dialogue_text);
+    this_dialogue_col.appendChild(this_para);
 
     this_dialogue_row.appendChild(this_dialogue_col);
     this_dialogue_row.insertBefore(this_dialogue_filler, this_dialogue_col);
@@ -101,10 +110,9 @@ function sendMessage() {
         fetch("https://mspcbotgate.azurewebsites.net/botservice/question", requestOptions)
         .then(response => response.json())
         .then(result => {
-            var converter = new showdown.Converter(),
-            text = result['reply'],
-            html = converter.makeHtml(text);
-            newBotDialogue(html)
+            var md = new Remarkable();
+            text = md.render(result['reply']);
+            newBotDialogue(text);
         })
         .catch(error => console.log('error', error));
     }
