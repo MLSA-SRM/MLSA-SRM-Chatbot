@@ -8,21 +8,16 @@ import mysql.connector
 import json
 from settings import SQL_DB, SQL_HOST, SQL_PORT, SQL_PWD, SQL_USER
 
-mydb = mysql.connector.connect(
-    user=SQL_USER, 
-    password=SQL_PWD, 
-    host=SQL_HOST, 
-    port=SQL_PORT, 
-    database=SQL_DB
-)
-
-mycursor = mydb.cursor(buffered=True)
-
-def debug_msg():
-    for x in mycursor:
-        print(x)
-
 def storeNewFeedbackLog(_log):
+    mydb = mysql.connector.connect(
+        user=SQL_USER, 
+        password=SQL_PWD, 
+        host=SQL_HOST, 
+        port=SQL_PORT, 
+        database=SQL_DB
+    )
+
+    mycursor = mydb.cursor(buffered=True)
     log = json.loads(_log)
     log = json.loads(log)
     timestamp = str(log['timestamp'])
@@ -37,13 +32,24 @@ def storeNewFeedbackLog(_log):
         mycursor.execute('SELECT * FROM {db}.{table};'.format(db=database, table=feedback_table))
         if debug_mode:
             print('Ran SQL')
-        debug_msg()
+        for x in mycursor:
+            print(x)
         mydb.commit()
+        mydb.close()
         return True
     except:
         return False
 
 def storeNewChat(_log):
+    mydb = mysql.connector.connect(
+        user=SQL_USER, 
+        password=SQL_PWD, 
+        host=SQL_HOST, 
+        port=SQL_PORT, 
+        database=SQL_DB
+    )
+
+    mycursor = mydb.cursor(buffered=True)
     log = json.loads(_log)
     log = json.loads(log)
     timestamp = str(log['timestamp'])
@@ -57,8 +63,10 @@ def storeNewChat(_log):
         mycursor.execute('SELECT * FROM {db}.{table};'.format(db=database, table=convo_table))
         if debug_mode:
             print('Ran SQL')
-        debug_msg()
+        for x in mycursor:
+            print(x)
         mydb.commit()
+        mydb.close()
         return True
     except:
         return False

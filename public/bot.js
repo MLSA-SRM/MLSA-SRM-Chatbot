@@ -4,6 +4,7 @@ var positive_sentiment = 'Thank you for the feedback! We work hard to get the be
 var negative_sentiment = 'Kindly receive our apologies for the inconvenience caused. We are constantly making progress to enhance your experience. We appreciate your valuable feedback.';
 // -------
 
+
 function popupChat () {
     var bot_interface = document.getElementsByClassName('bot-interface')[0];
     bot_interface.style.display = 'block';
