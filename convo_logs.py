@@ -53,7 +53,7 @@ def storeNewChat(_log):
     mycursor = mydb.cursor(buffered=True)
     log = json.loads(_log)
     log = json.loads(log)
-    timestamp = int(log['timestamp'])
+    timestamp = log['timestamp']
     dialogue = (json.dumps(log['dialogue'])).replace('"', '')
 
     query_insert = 'INSERT INTO {db}.{table} (time_stamp, convo)'.format(db=database, table=convo_table)
