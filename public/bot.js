@@ -48,7 +48,7 @@ function storeFeedback (feedback, pred_senti) {
         body: JSON.stringify(thisFeedback)
     };
 
-    fetch("http://localhost:5000/botadmin/logs/feedback", requestOptions)
+    fetch("https://mspcbotmain.azurewebsites.net/botadmin/logs/feedback", requestOptions)
     .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
@@ -85,7 +85,7 @@ function storeChat (chat_box) {
             body: JSON.stringify(chat)
         };
 
-        fetch("/botadmin/logs/chat", requestOptions)
+        fetch("https://mspcbotmain.azurewebsites.net/botadmin/logs/chat", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
