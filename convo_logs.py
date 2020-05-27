@@ -60,15 +60,15 @@ def storeNewChat(_log):
     query_insert = 'INSERT INTO {db}.{table} (time_stamp, convo)'.format(db=database, table=convo_table)
     query_insert = query_insert + 'VALUES ("{time}", "{dia}");'.format(time=timestamp, dia=dialogue)
 
-    # try:
-    mycursor.execute(query_insert)
-    mycursor.execute('SELECT * FROM {db}.{table};'.format(db=database, table=convo_table))
-    if debug_mode:
-        print('Ran SQL')
-    for x in mycursor:
-        print(x)
-    mydb.commit()
-    mydb.close()
-    return True
-    # except:
-    #     return False
+    try:
+        mycursor.execute(query_insert)
+        mycursor.execute('SELECT * FROM {db}.{table};'.format(db=database, table=convo_table))
+        if debug_mode:
+            print('Ran SQL')
+        for x in mycursor:
+            print(x)
+        mydb.commit()
+        mydb.close()
+        return True
+    except:
+        return False
