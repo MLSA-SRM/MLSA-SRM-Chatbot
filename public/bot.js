@@ -1,8 +1,8 @@
-// variables
-var input_mode = 'feedback';
-var positive_sentiment = 'Thank you for the feedback! We work hard to get the best experience and try to hit the mark for you. Hoping to see you in the upcoming events by MSPC!';
-var negative_sentiment = 'Kindly receive our apologies for the inconvenience caused. We are constantly making progress to enhance your experience. We appreciate your valuable feedback.';
-// -------
+// // variables
+// var input_mode = 'feedback';
+// var positive_sentiment = 'Thank you for the feedback! We work hard to get the best experience and try to hit the mark for you. Hoping to see you in the upcoming events by MSPC!';
+// var negative_sentiment = 'Kindly receive our apologies for the inconvenience caused. We are constantly making progress to enhance your experience. We appreciate your valuable feedback.';
+// // -------
 
 
 function popupChat () {
@@ -18,7 +18,7 @@ function popupChat () {
     bot_interface.insertBefore(chat_box, sendmsg_form);
 
     botMessage('How may we help you?');
-    presentButtonOptions();
+    // presentButtonOptions();
 }
 
 function closeChat () {
@@ -31,29 +31,29 @@ function closeChat () {
     bot_interface.style.display = 'none';
 }
 
-function storeFeedback (feedback, pred_senti) {
-    thisFeedback = JSON.stringify({
-        "timestamp": (new Date()).getTime(),
-        "feedback": feedback,
-        "pred_senti": pred_senti
-    });
+// function storeFeedback (feedback, pred_senti) {
+//     thisFeedback = JSON.stringify({
+//         "timestamp": (new Date()).getTime(),
+//         "feedback": feedback,
+//         "pred_senti": pred_senti
+//     });
 
-    console.log(thisFeedback);
+//     console.log(thisFeedback);
 
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "text/plain");
+//     var myHeaders = new Headers();
+//     myHeaders.append("Content-Type", "text/plain");
 
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(thisFeedback)
-    };
+//     var requestOptions = {
+//         method: 'POST',
+//         headers: myHeaders,
+//         body: JSON.stringify(thisFeedback)
+//     };
 
-    fetch("https://mspcbotmain.azurewebsites.net/botadmin/logs/feedback", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
-}
+//     fetch("http://localhost:5000/botadmin/logs/feedback", requestOptions)
+//     .then(response => response.text())
+//     .then(result => console.log(result))
+//     .catch(error => console.log('error', error));
+// }
 
 function storeChat (chat_box) {
         var diaList = []
@@ -154,86 +154,86 @@ function userMessage (msg) {
     newRow.scrollIntoView();
 }
 
-function presentButtonOptions () {
-    var inputToBeDisabled = document.getElementsByClassName('msg')[0];
-    inputToBeDisabled.disabled = true;
-    inputToBeDisabled.placeholder = '';
+// function presentButtonOptions () {
+//     var inputToBeDisabled = document.getElementsByClassName('msg')[0];
+//     inputToBeDisabled.disabled = true;
+//     inputToBeDisabled.placeholder = '';
 
-    var chat_box = document.getElementById('chat-box');
+//     var chat_box = document.getElementById('chat-box');
     
-    var newRow = document.createElement('div');
-    newRow.className = "row justify-content-md";
-    newRow.id = "button-dialogue"
+//     var newRow = document.createElement('div');
+//     newRow.className = "row justify-content-md";
+//     newRow.id = "button-dialogue"
 
-    var thisButtonOption = document.createElement('div');
-    thisButtonOption.className = 'col-sm-auto p-1 m-1';
-    thisButtonOption.id = 'button-option';
+//     var thisButtonOption = document.createElement('div');
+//     thisButtonOption.className = 'col-sm-auto p-1 m-1';
+//     thisButtonOption.id = 'button-option';
 
-    var thisButton = document.createElement('button');
-    thisButton.className = 'option-button';
+//     var thisButton = document.createElement('button');
+//     thisButton.className = 'option-button';
 
-    var thisOption = document.createTextNode('Question');
+//     var thisOption = document.createTextNode('Question');
 
-    thisButton.appendChild(thisOption);
-    thisButtonOption.appendChild(thisButton);
-    newRow.appendChild(thisButtonOption);
+//     thisButton.appendChild(thisOption);
+//     thisButtonOption.appendChild(thisButton);
+//     newRow.appendChild(thisButtonOption);
 
-    thisButton.onclick = () => {
-        questionMode();
-    }
+//     thisButton.onclick = () => {
+//         questionMode();
+//     }
 
-    var thisButtonOption = document.createElement('div');
-    thisButtonOption.className = 'col-sm-auto p-1 m-1';
-    thisButtonOption.id = 'button-option';
+//     var thisButtonOption = document.createElement('div');
+//     thisButtonOption.className = 'col-sm-auto p-1 m-1';
+//     thisButtonOption.id = 'button-option';
 
-    var thisButton = document.createElement('button');
-    thisButton.className = 'option-button';
+//     var thisButton = document.createElement('button');
+//     thisButton.className = 'option-button';
 
-    var thisOption = document.createTextNode('Feedback');
+//     var thisOption = document.createTextNode('Feedback');
 
-    thisButton.appendChild(thisOption);
-    thisButtonOption.appendChild(thisButton);
-    newRow.appendChild(thisButtonOption);
+//     thisButton.appendChild(thisOption);
+//     thisButtonOption.appendChild(thisButton);
+//     newRow.appendChild(thisButtonOption);
 
-    thisButton.onclick = () => { 
-        feedbackMode();
-    }
+//     thisButton.onclick = () => { 
+//         feedbackMode();
+//     }
 
-    chat_box.appendChild(newRow);
-}
+//     chat_box.appendChild(newRow);
+// }
 
-function questionMode() {  
-    var inputToBeEnabled = document.getElementsByClassName('msg')[0];
-    inputToBeEnabled.disabled = false;
-    inputToBeEnabled.placeholder = 'Type here...';
-    input_mode = 'question';
+// function questionMode() {  
+//     var inputToBeEnabled = document.getElementsByClassName('msg')[0];
+//     inputToBeEnabled.disabled = false;
+//     inputToBeEnabled.placeholder = 'Type here...';
+//     input_mode = 'question';
 
-    var button_row = document.getElementById('button-dialogue');
-    button_row.remove();
+//     var button_row = document.getElementById('button-dialogue');
+//     button_row.remove();
 
-    userMessage('Question');
-    botMessage("We're glad to help! Ask us anything..");
-}
+//     userMessage('Question');
+//     botMessage("We're glad to help! Ask us anything..");
+// }
 
 
-function feedbackMode() {
-    var inputToBeEnabled = document.getElementsByClassName('msg')[0];
-    inputToBeEnabled.disabled = false;
-    inputToBeEnabled.placeholder = 'Type here...';
-    input_mode = 'feedback';
+// function feedbackMode() {
+//     var inputToBeEnabled = document.getElementsByClassName('msg')[0];
+//     inputToBeEnabled.disabled = false;
+//     inputToBeEnabled.placeholder = 'Type here...';
+//     input_mode = 'feedback';
 
-    var button_row = document.getElementById('button-dialogue');
-    button_row.remove();
+//     var button_row = document.getElementById('button-dialogue');
+//     button_row.remove();
 
-    userMessage('Feedback');
-    botMessage('We would love to have your views!');
-}
+//     userMessage('Feedback');
+//     botMessage('We would love to have your views!');
+// }
 
 
 function askQuestion() {
     msg = document.getElementsByClassName('msg')[0].value;
     if (msg.toString() != "") {
-        if (input_mode == 'question') {
+        // if (input_mode == 'question') {
             document.getElementsByClassName('msg')[0].value = '';
             
             payload = {
@@ -264,44 +264,44 @@ function askQuestion() {
             })
             .catch(error => console.log('error', error));
 
-        } 
-        if (input_mode == 'feedback') {
-            document.getElementsByClassName('msg')[0].value = '';
+    //     } 
+    //     if (input_mode == 'feedback') {
+    //         document.getElementsByClassName('msg')[0].value = '';
 
-            var myHeaders = new Headers();
-            myHeaders.append("Authorization", "EndpointKey f7562a24-429f-4ea8-8512-dafb1bdcf64b");
-            myHeaders.append("Content-Type", "application/json");
+    //         var myHeaders = new Headers();
+    //         myHeaders.append("Authorization", "EndpointKey f7562a24-429f-4ea8-8512-dafb1bdcf64b");
+    //         myHeaders.append("Content-Type", "application/json");
 
-            payload = {
-                "data": {
-                    "feedback": {
-                        "value": '"' + msg.toString() + '"'
-                    }
-                }
-            }
+    //         payload = {
+    //             "data": {
+    //                 "feedback": {
+    //                     "value": '"' + msg.toString() + '"'
+    //                 }
+    //             }
+    //         }
 
-            var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: JSON.stringify(payload),
-            };
+    //         var requestOptions = {
+    //             method: 'POST',
+    //             headers: myHeaders,
+    //             body: JSON.stringify(payload),
+    //         };
 
-            userMessage(msg);
-            fetch("https://mspcbotmain.azurewebsites.net/botservice/feedback", requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                input_mode = 'question';
+    //         userMessage(msg);
+    //         fetch("http://localhost:5000/botservice/feedback", requestOptions)
+    //         .then(response => response.json())
+    //         .then(result => {
+    //             input_mode = 'question';
 
-                if(result['reply'].toString() == '1') {
-                    botMessage(positive_sentiment);
-                } else if (result['reply'].toString() == '0') {
-                    botMessage(negative_sentiment);
-                }
-                storeFeedback(msg.toString(), result['reply']);
-                botMessage('Want to know anything else?')
-            })
-            .catch(error => console.log('error', error));
+    //             if(result['reply'].toString() == '1') {
+    //                 botMessage(positive_sentiment);
+    //             } else if (result['reply'].toString() == '0') {
+    //                 botMessage(negative_sentiment);
+    //             }
+    //             storeFeedback(msg.toString(), result['reply']);
+    //             botMessage('Want to know anything else?')
+    //         })
+    //         .catch(error => console.log('error', error));
 
-        }
+    //     }
     }
 }

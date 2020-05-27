@@ -10,7 +10,7 @@
     height: calc(425px + 65px + 3.75rem);
     position: fixed;
     right: 32px;
-    bottom: 150px;
+    bottom: 100px;
     border-radius: 0.6rem;
 }
 
@@ -63,7 +63,7 @@
     height: calc(425px + 65px + 3.75rem);
     position: fixed;
     right: 32px;
-    bottom: 150px;
+    bottom: 100px;
     border-radius: 0.6rem;
     -webkit-box-shadow: 0 10px 10px 0 rgba(0,0,0,0.2);
     -moz-box-shadow: 0 10px 10px 0 rgba(0,0,0,0.2);
@@ -84,7 +84,7 @@
     margin-top: 10px;
     width: 335px;
     height: 405px;
-    font-size: 20px;
+    font-size: 15px;
     overflow-y: auto;
     scrollbar-width: none;
 }
@@ -114,7 +114,8 @@
     max-width: 300px;
 }
 
-.option-button {
+/* ------------------------Potential button interface for suggestions------------ */
+/* .option-button {
     background-color: #00bfff;
     color: white;
     border-radius: 0.25rem;
@@ -132,8 +133,8 @@
     -webkit-box-shadow: 0 2.5px 2.5px 0 rgba(0,0,0,0.2);
     -moz-box-shadow: 0 2.5px 2.5px 0 rgba(0,0,0,0.2);
     box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
-}
-
+} */
+/* --------------------------------------------------------------------------------- */
 #dialogue-container {
     max-width: 300px;
     padding-top: 5px;

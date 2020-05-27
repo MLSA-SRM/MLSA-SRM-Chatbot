@@ -29,16 +29,19 @@ def retResponseToQuestion():
     print(res)
     return res
 
-@app.route('/botservice/feedback', methods=['POST'])
-def retResponseToFeedback():
-    req = json.loads(request.data)
-    f = req['data']['feedback']['value']
-    res = json.dumps({'reply': fScript.aptResponse(f)})
-    return res
+# -----------------------potential feedback service--------------------------------------------------------------
+# @app.route('/botservice/feedback', methods=['POST'])
+# def retResponseToFeedback():
+#     req = json.loads(request.data)
+#     f = req['data']['feedback']['value']
+#     res = json.dumps({'reply': fScript.aptResponse(f)})
+#     return res
     
-@app.route('/botadmin/logs/feedback', methods=['POST'])
-def saveFeedback():
-    return 'feedback logged' if convo_logs.storeNewFeedbackLog(request.data) else 'feedback not logged'
+# logging for potential feedback service
+# @app.route('/botadmin/logs/feedback', methods=['POST'])
+# def saveFeedback():
+#     return 'feedback logged' if convo_logs.storeNewFeedbackLog(request.data) else 'feedback not logged'
+# ---------------------------------------------------------------------------------------------------------------
 
 @app.route('/botadmin/logs/chat', methods=['POST'])
 def saveChatLogs():
