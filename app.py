@@ -6,6 +6,7 @@ CORS(app, support_credentials=True)
 
 import qScript
 import fScript
+import convo_logs
 import json
 
 @app.route('/')
@@ -15,7 +16,6 @@ def botHome():
 @app.route('/mspcbot')
 def mspcBot():
     return render_template('index.html')
-
 
 @app.route('/botservice/question', methods=['POST'])
 def retResponseToQuestion():
@@ -35,6 +35,14 @@ def retResponseToFeedback():
     f = req['data']['feedback']['value']
     res = json.dumps({'reply': fScript.aptResponse(f)})
     return res
+    
+@app.route('/botadmin/logs/feedback', methods=['POST'])
+def saveFeedback():
+    return 'feedback logged' if convo_logs.storeNewFeedbackLog(request.data) else 'feedback not logged'
+
+@app.route('/botadmin/logs/chat', methods=['POST'])
+def saveChatLogs():
+    return 'chat logged' if convo_logs.storeNewChat(request.data) else 'chat not logged'
 
 if __name__ == '__main__':
     app.run()

@@ -16,17 +16,25 @@
     <script src='bot.js'></script> -->
   </head>
   <body>
-    <button class="open-button" onclick="openForm()">Have a Chat!</button>
-    <div class="form-popup" id="myForm">
-      <form class="form-container" onsubmit="event.preventDefault(); sendMessage()">
-        <div class='chat'>
-          <div class='container'>
-          </div>              
+
+    <div class="chatbot">
+      <button class="popup-button" onclick="popupChat()"></button>
+
+      <div class="bot-interface">
+        <div class='chat-header'>
+          <img src="{{url_for('static', filename='assets/chat_header_icon.svg')}}" width="20px">
+          Chat
+          <button class="close-chat" onclick="closeChat()"></button>
         </div>
-        <input type="message" placeholder="Send Message" name="psw">
-        <button type="button" class="sendmsg" onclick="sendMessage()"><img src='{{url_for('static', filename='assets/send_icon.svg')}}' /></button>
-        <button type="button" class="btn cancel" onclick="closeForm()">Close Chat</button>
-      </form>
-    </div>  
+        <div class='sendmsg'>
+          <form class='input' onsubmit="event.preventDefault(); askQuestion();">
+            <input type='text' class='msg'>
+            <input type='button' class='send' onclick="askQuestion();">
+          </form> 
+        </div>
+        
+      </div>
+    </div>
+
   </body>
 </html>
