@@ -240,7 +240,7 @@ function askQuestion() {
                 "data": {
                     "question": '"' + msg.toString() + '"',
                     "host": "mspcbot-faq.azurewebsites.net",
-                    "POSTkey": "946b8385-23cd-4333-a5f4-8e4bb7075770",
+                    "POSTkey": "7a99f334-2fc0-4a6d-8a43-871b7562a34f",
                     "key": "EndpointKey d984024e-ca78-4394-8b1c-d96907585545"
                 }
             }
