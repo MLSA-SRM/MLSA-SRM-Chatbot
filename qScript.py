@@ -21,9 +21,9 @@ def ping_kb(question, host, POSTkey, key):
     return random.choice(possible_answers)
 
 # MSPC BOT Credentials
-host = "mspcbot-faq.azurewebsites.net"
-POSTkey = '7a99f334-2fc0-4a6d-8a43-871b7562a34f'
-key = 'EndpointKey d984024e-ca78-4394-8b1c-d96907585545'
-question = "'do u eat'"
+# host = "mspcbot-faq.azurewebsites.net"
+# POSTkey = '7a99f334-2fc0-4a6d-8a43-871b7562a34f'
+# key = 'EndpointKey d984024e-ca78-4394-8b1c-d96907585545'
+# question = "'do u eat'"
 
-print(ping_kb(question, host, POSTkey, key))
+# print(ping_kb(question, host, POSTkey, key))
