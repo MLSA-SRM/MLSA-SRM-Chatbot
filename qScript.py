@@ -6,7 +6,7 @@ import random
 def ping_kb(question, host, POSTkey, key):
     # print(question, host, POSTkey, key)
     conn = http.client.HTTPSConnection(host)
-    payload = "{\n\t\"question\": \"mspc lead\",\n\t\"top\": 4\n}"
+    payload = "{\n\t\"question\": \"+ question +\",\n\t\"top\": 4\n}"
     headers = {
     'Authorization': key,
     'Content-Type': 'application/json',
@@ -24,6 +24,6 @@ def ping_kb(question, host, POSTkey, key):
 host = "mspcbot-faq.azurewebsites.net"
 POSTkey = '7a99f334-2fc0-4a6d-8a43-871b7562a34f'
 key = 'EndpointKey d984024e-ca78-4394-8b1c-d96907585545'
-question = "'Who is your lead'"
+question = "'do u eat'"
 
 print(ping_kb(question, host, POSTkey, key))
