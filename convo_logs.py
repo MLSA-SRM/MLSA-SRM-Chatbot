@@ -7,6 +7,7 @@ debug_mode = False
 import mysql.connector
 import json
 from datetime import datetime
+from datetime import timedelta
 from settings import SQL_DB, SQL_HOST, SQL_PORT, SQL_PWD, SQL_USER
 
 #----potential feedback system logs----------------------------------------------------------------------------
@@ -54,7 +55,8 @@ def storeNewChat(_log):
     mycursor = mydb.cursor(buffered=True)
     log = json.loads(_log)
     log = json.loads(log)
-    timestamp = datetime.now()
+    timestamp = datetime.now() + timedelta(hours=5)
+    timestamp = timestamp + timedelta(minutes=30)
     dialogue = (json.dumps(log['dialogue'])).replace('"', '')
 
     query_insert = 'INSERT INTO {db}.{table} (time_stamp, convo)'.format(db=database, table=convo_table)

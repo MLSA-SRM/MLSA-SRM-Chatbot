@@ -1,76 +1,115 @@
-// // variables
-// var input_mode = 'feedback';
-// var positive_sentiment = 'Thank you for the feedback! We work hard to get the best experience and try to hit the mark for you. Hoping to see you in the upcoming events by MSPC!';
-// var negative_sentiment = 'Kindly receive our apologies for the inconvenience caused. We are constantly making progress to enhance your experience. We appreciate your valuable feedback.';
-// // -------
+// // // variables
+// // var input_mode = 'feedback';
+// // var positive_sentiment = 'Thank you for the feedback! We work hard to get the best experience and try to hit the mark for you. Hoping to see you in the upcoming events by MSPC!';
+// // var negative_sentiment = 'Kindly receive our apologies for the inconvenience caused. We are constantly making progress to enhance your experience. We appreciate your valuable feedback.';
+// // // -------
 
+function botCommand(cmd) {
+    console.log('CMD: ' + cmd.toString());
+
+    switch (cmd.toString()) {
+        case "help":
+            botMessage('Following Commands available:<br>@clear - clear current chat<br>@quit - close chatbot');
+            break;
+        case "clear": 
+            closeChat();
+            popupChat();
+            break;
+        case "quit":
+            closeChat();
+            break;
+        default:
+            botMessage('Invalid Command Attempt. Use @help to see available commands.');
+    }
+}
+
+chat_log = []
 
 function popupChat () {
     var bot_interface = document.getElementsByClassName('bot-interface')[0];
     bot_interface.style.display = 'block';
 
-    var sendmsg_form = document.getElementsByClassName('sendmsg')[0];
+    var chatBox = document.getElementById('chat-box');
+    var chatHolder = document.createElement('div')
+    chatHolder.id = 'chat-holder';
+   
+    chatBox.insertBefore(chatHolder, document.getElementsByClassName('user-input-dialogue')[0]);
 
-    var chat_box = document.createElement('div');
-    chat_box.id = 'chat-box';
-    chat_box.className = 'container';
-
-    bot_interface.insertBefore(chat_box, sendmsg_form);
-
+    document.getElementsByClassName("user-input")[0].focus()
     botMessage('How may we help you?');
-    // presentButtonOptions();
+        // presentButtonOptions();
 }
+
+// function spawnInput () {
+//     var inputDiv = document.createElement('div');
+//     inputDiv.className = "row p-0 justify-content-md";
+//     inputDiv.id = "bot-dialogue";
+
+//     var inputCol = document.createElement('div');
+//     inputCol.className = "col-sm-auto p1";
+    
+//     var dialCont = document.createElement('div');
+//     dialCont.id = "dialogue-container";
+
+//     var paraElem = document.createElement('p');
+//     paraElem.className = "dialogue"
+//     paraElem.style = "margin-top: 0px; margin-left: 0px; margin-bottom: 0px; margin-right: 20px;";
+    
+//     var formInpu = document.createElement('form');
+
+//     var labelInp = document.createElement('label');
+//     labelInp.htmlFor = "input";
+
+//     var spanInpu = document.createElement('span');
+//     spanInpu.id = "user-prompt";
+//     var promptText = document.createTextNode('~/user>');
+
+//     var inpuInp = document.createElement('input');
+//     inpuInp.type = 'text';
+//     inpuInp.size = '25';
+//     inpuInp.name = 'input';
+//     inpuInp.class = 'user-input';    
+// }
 
 function closeChat () {
     var bot_interface = document.getElementsByClassName('bot-interface')[0];
     var chat_box = document.getElementById('chat-box');
     
-    storeChat(chat_box)
-    
-    chat_box.remove()
+    storeChat();
+
+    document.getElementById('chat-holder').remove();
     bot_interface.style.display = 'none';
 }
 
-// function storeFeedback (feedback, pred_senti) {
-//     thisFeedback = JSON.stringify({
-//         "timestamp": (new Date()).getTime(),
-//         "feedback": feedback,
-//         "pred_senti": pred_senti
-//     });
+// // function storeFeedback (feedback, pred_senti) {
+// //     thisFeedback = JSON.stringify({
+// //         "timestamp": (new Date()).getTime(),
+// //         "feedback": feedback,
+// //         "pred_senti": pred_senti
+// //     });
 
-//     console.log(thisFeedback);
+// //     console.log(thisFeedback);
 
-//     var myHeaders = new Headers();
-//     myHeaders.append("Content-Type", "text/plain");
+// //     var myHeaders = new Headers();
+// //     myHeaders.append("Content-Type", "text/plain");
 
-//     var requestOptions = {
-//         method: 'POST',
-//         headers: myHeaders,
-//         body: JSON.stringify(thisFeedback)
-//     };
+// //     var requestOptions = {
+// //         method: 'POST',
+// //         headers: myHeaders,
+// //         body: JSON.stringify(thisFeedback)
+// //     };
 
-//     fetch("http://localhost:5000/botadmin/logs/feedback", requestOptions)
-//     .then(response => response.text())
-//     .then(result => console.log(result))
-//     .catch(error => console.log('error', error));
-// }
+// //     fetch("http://localhost:5000/botadmin/logs/feedback", requestOptions)
+// //     .then(response => response.text())
+// //     .then(result => console.log(result))
+// //     .catch(error => console.log('error', error));
+// // }
 
 function storeChat (chat_box) {
-        var diaList = []
-        for (i=0; i<chat_box.children.length;i++) {
-            if (chat_box.children[i].id.toString() == 'bot-dialogue') {
-                dialogue = {
-                    'bot': chat_box.children[i].children[0].innerText
-                }
-                diaList.push(dialogue);
-            } else if (chat_box.children[i].id.toString() == 'user-dialogue') {
-                dialogue = {
-                    'user': chat_box.children[i].children[1].innerText
-                }
-                diaList.push(dialogue);
-            }
-        }
-        
+        var diaList = chat_log;
+        console.log(diaList);
+        chat_log = [];
+
         var chat = JSON.stringify({
             "timestamp": (new Date()).getTime(),
             "dialogue": diaList
@@ -86,6 +125,7 @@ function storeChat (chat_box) {
             body: JSON.stringify(chat)
         };
 
+        // fetch("http://localhost:5000/botadmin/logs/chat", requestOptions)
         fetch("https://mspcbotmain.azurewebsites.net/botadmin/logs/chat", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
@@ -94,147 +134,169 @@ function storeChat (chat_box) {
 }
 
 function botMessage (msg) {
-    var chat_box = document.getElementById('chat-box');
-    
-    var newRow = document.createElement('div');
-    newRow.className = "row justify-content-md";
-    newRow.id = "bot-dialogue";
-
-    var txtCol = document.createElement('div');
-    txtCol.className = "col-sm-auto p-1 m-1";
-    txtCol.id = "bot-sub-dia-1";
-
-    var filCol = document.createElement('div');
-    filCol.className = "col m-1";
-    filCol.id = "bot-sub-dia-2";
+    var chat_box = document.getElementById('chat-holder');
 
     var dialogueContainer = document.createElement('div');
     dialogueContainer.id = "dialogue-container";
 
-    var htmlString = '<p class="dialogue">' + msg + '</p>';
+    var dialogue = document.createElement('p');
+    dialogue.className = "dialogue";
+
+    var spanT = document.createElement('span');
+    spanT.id = "bot-prompt";
+
+    var botPrompt = document.createTextNode('/bot> ');
+    spanT.appendChild(botPrompt);
+
+    dialogue.appendChild(spanT);
+
+    var htmlString =  '<p>' + msg + '</p>';
     var doc = new DOMParser().parseFromString(htmlString, "text/html");
+    console.log(doc);
     paraSets = doc.getElementsByTagName('p');
+    console.log(paraSets);
     for (i = 0; i < paraSets.length; ++i) {
         if(paraSets[i].innerText != '') {
             var mainPara = paraSets[i];
         }
     }
-    mainPara.style.margin = 0;
-    dialogueContainer.appendChild(mainPara);
-    txtCol.appendChild(dialogueContainer);
-    newRow.appendChild(filCol);
-    newRow.insertBefore(txtCol, filCol);
-    chat_box.appendChild(newRow);
-    newRow.scrollIntoView();
+
+    dialogue.appendChild(mainPara);
+    dialogueContainer.appendChild(dialogue);
+    chat_box.append(dialogueContainer);
+    dialogueContainer.scrollIntoView();
+    document.getElementsByClassName('bounds')[1].scrollIntoView();
+    chat_log.push({
+        "bot": mainPara.innerText.toString() 
+    });
 }
 
 function userMessage (msg) {
-    var chat_box = document.getElementById('chat-box');
-    
-    var newRow = document.createElement('div');
-    newRow.className = "row justify-content-md";
-    newRow.id = "user-dialogue"
-
-    var txtCol = document.createElement('div');
-    txtCol.className = "col-auto p-1 mt-2 mb-2";
-    txtCol.id = "user-sub-dia-2";
-
-    var filCol = document.createElement('div');
-    filCol.className = "col m-1";
-    filCol.id = "user-sub-dia-1";
+    var chat_box = document.getElementById('chat-holder');
 
     var dialogueContainer = document.createElement('div');
-    dialogueContainer.id = "dialogue-container"
+    dialogueContainer.id = "dialogue-container";
 
-    dialogueContainer.appendChild(document.createTextNode(msg.toString()));
-    txtCol.appendChild(dialogueContainer);
-    newRow.appendChild(filCol);
-    newRow.appendChild(txtCol);
-    chat_box.appendChild(newRow);
-    newRow.scrollIntoView();
+    var dialogue = document.createElement('p');
+    dialogue.className = "dialogue";
+
+    var spanT = document.createElement('span');
+    spanT.id = "user-prompt";
+
+    var botPrompt = document.createTextNode('/user> ');
+    spanT.appendChild(botPrompt);
+
+    dialogue.appendChild(spanT);
+
+    var htmlString =  '<p>' + msg + '</p>';
+    var doc = new DOMParser().parseFromString(htmlString, "text/html");
+    console.log(doc);
+    paraSets = doc.getElementsByTagName('p');
+    console.log(paraSets);
+    for (i = 0; i < paraSets.length; ++i) {
+        if(paraSets[i].innerText != '') {
+            var mainPara = paraSets[i];
+        }
+    }
+
+    dialogue.appendChild(mainPara);
+    dialogueContainer.appendChild(dialogue);
+    chat_box.appendChild(dialogueContainer);
+    dialogueContainer.scrollIntoView();
+    chat_log.push({
+        "user": msg.toString()
+    });
 }
 
-// function presentButtonOptions () {
-//     var inputToBeDisabled = document.getElementsByClassName('msg')[0];
-//     inputToBeDisabled.disabled = true;
-//     inputToBeDisabled.placeholder = '';
+// // function presentButtonOptions () {
+// //     var inputToBeDisabled = document.getElementsByClassName('msg')[0];
+// //     inputToBeDisabled.disabled = true;
+// //     inputToBeDisabled.placeholder = '';
 
-//     var chat_box = document.getElementById('chat-box');
+// //     var chat_box = document.getElementById('chat-box');
     
-//     var newRow = document.createElement('div');
-//     newRow.className = "row justify-content-md";
-//     newRow.id = "button-dialogue"
+// //     var newRow = document.createElement('div');
+// //     newRow.className = "row justify-content-md";
+// //     newRow.id = "button-dialogue"
 
-//     var thisButtonOption = document.createElement('div');
-//     thisButtonOption.className = 'col-sm-auto p-1 m-1';
-//     thisButtonOption.id = 'button-option';
+// //     var thisButtonOption = document.createElement('div');
+// //     thisButtonOption.className = 'col-sm-auto p-1 m-1';
+// //     thisButtonOption.id = 'button-option';
 
-//     var thisButton = document.createElement('button');
-//     thisButton.className = 'option-button';
+// //     var thisButton = document.createElement('button');
+// //     thisButton.className = 'option-button';
 
-//     var thisOption = document.createTextNode('Question');
+// //     var thisOption = document.createTextNode('Question');
 
-//     thisButton.appendChild(thisOption);
-//     thisButtonOption.appendChild(thisButton);
-//     newRow.appendChild(thisButtonOption);
+// //     thisButton.appendChild(thisOption);
+// //     thisButtonOption.appendChild(thisButton);
+// //     newRow.appendChild(thisButtonOption);
 
-//     thisButton.onclick = () => {
-//         questionMode();
-//     }
+// //     thisButton.onclick = () => {
+// //         questionMode();
+// //     }
 
-//     var thisButtonOption = document.createElement('div');
-//     thisButtonOption.className = 'col-sm-auto p-1 m-1';
-//     thisButtonOption.id = 'button-option';
+// //     var thisButtonOption = document.createElement('div');
+// //     thisButtonOption.className = 'col-sm-auto p-1 m-1';
+// //     thisButtonOption.id = 'button-option';
 
-//     var thisButton = document.createElement('button');
-//     thisButton.className = 'option-button';
+// //     var thisButton = document.createElement('button');
+// //     thisButton.className = 'option-button';
 
-//     var thisOption = document.createTextNode('Feedback');
+// //     var thisOption = document.createTextNode('Feedback');
 
-//     thisButton.appendChild(thisOption);
-//     thisButtonOption.appendChild(thisButton);
-//     newRow.appendChild(thisButtonOption);
+// //     thisButton.appendChild(thisOption);
+// //     thisButtonOption.appendChild(thisButton);
+// //     newRow.appendChild(thisButtonOption);
 
-//     thisButton.onclick = () => { 
-//         feedbackMode();
-//     }
+// //     thisButton.onclick = () => { 
+// //         feedbackMode();
+// //     }
 
-//     chat_box.appendChild(newRow);
-// }
+// //     chat_box.appendChild(newRow);
+// // }
 
-// function questionMode() {  
-//     var inputToBeEnabled = document.getElementsByClassName('msg')[0];
-//     inputToBeEnabled.disabled = false;
-//     inputToBeEnabled.placeholder = 'Type here...';
-//     input_mode = 'question';
+// // function questionMode() {  
+// //     var inputToBeEnabled = document.getElementsByClassName('msg')[0];
+// //     inputToBeEnabled.disabled = false;
+// //     inputToBeEnabled.placeholder = 'Type here...';
+// //     input_mode = 'question';
 
-//     var button_row = document.getElementById('button-dialogue');
-//     button_row.remove();
+// //     var button_row = document.getElementById('button-dialogue');
+// //     button_row.remove();
 
-//     userMessage('Question');
-//     botMessage("We're glad to help! Ask us anything..");
-// }
+// //     userMessage('Question');
+// //     botMessage("We're glad to help! Ask us anything..");
+// // }
 
 
-// function feedbackMode() {
-//     var inputToBeEnabled = document.getElementsByClassName('msg')[0];
-//     inputToBeEnabled.disabled = false;
-//     inputToBeEnabled.placeholder = 'Type here...';
-//     input_mode = 'feedback';
+// // function feedbackMode() {
+// //     var inputToBeEnabled = document.getElementsByClassName('msg')[0];
+// //     inputToBeEnabled.disabled = false;
+// //     inputToBeEnabled.placeholder = 'Type here...';
+// //     input_mode = 'feedback';
 
-//     var button_row = document.getElementById('button-dialogue');
-//     button_row.remove();
+// //     var button_row = document.getElementById('button-dialogue');
+// //     button_row.remove();
 
-//     userMessage('Feedback');
-//     botMessage('We would love to have your views!');
-// }
+// //     userMessage('Feedback');
+// //     botMessage('We would love to have your views!');
+// // }
 
 
 function askQuestion() {
-    msg = document.getElementsByClassName('msg')[0].value;
-    if (msg.toString() != "") {
-        // if (input_mode == 'question') {
-            document.getElementsByClassName('msg')[0].value = '';
+    var inputField = document.getElementsByClassName('user-input')[0]; 
+
+    var prompt = document.getElementsByTagName("form")[0];
+    prompt.style.display = "none";
+
+    msg = inputField.value;
+    console.log(msg[0]);
+    inputField.value = '';
+    if (msg[0] != '@') {
+        if (msg.toString() != "") {
+            // if (input_mode == 'question') {
+
             
             payload = {
                 "data": {
@@ -252,56 +314,78 @@ function askQuestion() {
                 headers: myHeaders,
                 body: JSON.stringify(payload)
             };
-
+    
             userMessage(msg);
-
+    
+            // fetch("http://localhost:5000/botservice/question", requestOptions)
             fetch("https://mspcbotmain.azurewebsites.net/botservice/question", requestOptions)
             .then(response => response.json())
             .then(result => {
                 var md = new Remarkable();
                 text = md.render(result['reply']);
                 botMessage(text);
+                // inputField.style.display = "inline";
+                prompt.style.display = "inline";
+                inputField.focus();
             })
-            .catch(error => console.log('error', error));
-
-    //     } 
-    //     if (input_mode == 'feedback') {
-    //         document.getElementsByClassName('msg')[0].value = '';
-
-    //         var myHeaders = new Headers();
-    //         myHeaders.append("Authorization", "EndpointKey f7562a24-429f-4ea8-8512-dafb1bdcf64b");
-    //         myHeaders.append("Content-Type", "application/json");
-
-    //         payload = {
-    //             "data": {
-    //                 "feedback": {
-    //                     "value": '"' + msg.toString() + '"'
-    //                 }
-    //             }
-    //         }
-
-    //         var requestOptions = {
-    //             method: 'POST',
-    //             headers: myHeaders,
-    //             body: JSON.stringify(payload),
-    //         };
-
-    //         userMessage(msg);
-    //         fetch("http://localhost:5000/botservice/feedback", requestOptions)
-    //         .then(response => response.json())
-    //         .then(result => {
-    //             input_mode = 'question';
-
-    //             if(result['reply'].toString() == '1') {
-    //                 botMessage(positive_sentiment);
-    //             } else if (result['reply'].toString() == '0') {
-    //                 botMessage(negative_sentiment);
-    //             }
-    //             storeFeedback(msg.toString(), result['reply']);
-    //             botMessage('Want to know anything else?')
-    //         })
-    //         .catch(error => console.log('error', error));
-
-    //     }
+            .catch(error => {
+                console.log('error', error);
+                botMessage("I couldn't quite understand that.");
+                prompt.style.display = "inline";
+                inputField.focus();
+            });
+    
+    
+    
+        //     } 
+        //     if (input_mode == 'feedback') {
+        //         document.getElementsByClassName('msg')[0].value = '';
+    
+        //         var myHeaders = new Headers();
+        //         myHeaders.append("Authorization", "EndpointKey f7562a24-429f-4ea8-8512-dafb1bdcf64b");
+        //         myHeaders.append("Content-Type", "application/json");
+    
+        //         payload = {
+        //             "data": {
+        //                 "feedback": {
+        //                     "value": '"' + msg.toString() + '"'
+        //                 }
+        //             }
+        //         }
+    
+        //         var requestOptions = {
+        //             method: 'POST',
+        //             headers: myHeaders,
+        //             body: JSON.stringify(payload),
+        //         };
+    
+        //         userMessage(msg);
+        //         fetch("http://localhost:5000/botservice/feedback", requestOptions)
+        //         .then(response => response.json())
+        //         .then(result => {
+        //             input_mode = 'question';
+    
+        //             if(result['reply'].toString() == '1') {
+        //                 botMessage(positive_sentiment);
+        //             } else if (result['reply'].toString() == '0') {
+        //                 botMessage(negative_sentiment);
+        //             }
+        //             storeFeedback(msg.toString(), result['reply']);
+        //             botMessage('Want to know anything else?')
+        //         })
+        //         .catch(error => console.log('error', error));
+    
+        //     }
+        }
+        
+    } else if (msg[0] == '@') {
+        userMessage(msg);
+        botCommand(msg.slice(1, msg.length));
+        prompt.style.display = "inline";
+        inputField.focus(); 
     }
+
+
+
+    
 }

@@ -6,7 +6,11 @@ import random
 def ping_kb(question, host, POSTkey, key):
     # print(question, host, POSTkey, key)
     conn = http.client.HTTPSConnection(host)
-    payload = "{\n\t\"question\": \'" + question + "\',\n\t\"top\": 4\n}"
+    # payload = "{\n\t\"question\": \"" + question + "\",\n\t\"top\": 4\n}"
+    payload = json.dumps({
+        "question": question,
+        "top": 4
+    })
     headers = {
     'Authorization': key,
     'Content-Type': 'application/json',

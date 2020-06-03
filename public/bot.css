@@ -1,21 +1,25 @@
 * {
     outline: none;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* font-family: 'Ubuntu Mono', monospace; */
+    font-family: 'Source Code Pro', monospace;
+    font-size: medium;
 }
 
 .chatbot {
-    background-color: white;
+    background-color: transparent;
     align-content: center;
-    width: 350px;
-    height: calc(425px + 65px + 3.75rem);
+    width: 425px;
+    height: calc(375px + 65px + 3.75rem);
     position: fixed;
     right: 32px;
-    bottom: 100px;
+    bottom: 32px;
     border-radius: 0.6rem;
 }
 
+
 .popup-button {
-    background-image: url('assets/popup_button.svg');
+    background-image: url('assets/popup_button_light.svg');
+    background-size: contain;
     background-repeat: no-repeat;
     background-color: #f7f7f7;
     border: none;
@@ -23,7 +27,7 @@
     height: 3rem;
     float: right;
     margin-right: 0.5rem;
-    margin-top: calc(425px + 70.5px);
+    margin-top: calc(375px + 70.5px);
     border-radius: 100%;
     -webkit-box-shadow: 0 2.5px 2.5px 0 rgba(0,0,0,0.2);
     -moz-box-shadow: 0 2.5px 2.5px 0 rgba(0,0,0,0.2);
@@ -38,14 +42,15 @@
 
 .close-chat {
     background-image: url('assets/chat_close_icon.svg');
+    background-size: 1.30rem 1.30rem;
     background-repeat: no-repeat;
     background-color: transparent;
     border: none;
     width: 1.30rem;
     height: 1.30rem;
     float: right;
+    margin-top: 0.5rem;
     margin-right: 0.5rem;
-    margin-top: 10px;
     border-radius: 100%;
 }
 
@@ -57,13 +62,16 @@
 
 .bot-interface {
     display: none;
-    background-color: white;
+    background-color: transparent;
+    -webkit-backdrop-filter: blur(2.5px);
+    backdrop-filter: blur(2.5px);
+    background-color: rgba(10,10,10,0.925);
     align-content: center;
-    width: 350px;
-    height: calc(425px + 65px + 3.75rem);
+    width: 425px;
+    height: calc(375px + 65px + 3.75rem);
     position: fixed;
     right: 32px;
-    bottom: 100px;
+    bottom: 32px;
     border-radius: 0.6rem;
     -webkit-box-shadow: 0 10px 10px 0 rgba(0,0,0,0.2);
     -moz-box-shadow: 0 10px 10px 0 rgba(0,0,0,0.2);
@@ -80,124 +88,105 @@
 }
 
 #chat-box {
-    background-color:white;
-    margin-top: 10px;
-    width: 335px;
-    height: 405px;
-    font-size: 15px;
+    margin-top: 0px;
+    width: 400px;
+    height: calc(285px + 65px + 3.75rem);
+    font-size: 20px;
     overflow-y: auto;
     scrollbar-width: none;
+    border-bottom-left-radius: 0.6rem;
+    border-bottom-right-radius: 0.6rem;
+    margin: 10px;
 }
 
-#bot-sub-dia-1 {
-    background-color: #ededed;
-    border-radius: 25px;
-    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
-    
-}
-
-#user-sub-dia-2 {
-    background-color: #00bfff;
-    color: white;
-    margin-left: 0px;
-    border-radius: 25px;
-    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
-}
-
-.dialogue-container {
-    background-color: #ededed;
-    margin-bottom: 0px;
-    max-width: 300px;
-}
-
-/* ------------------------Potential button interface for suggestions------------ */
-/* .option-button {
-    background-color: #00bfff;
-    color: white;
-    border-radius: 0.25rem;
-    border: none;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 10px;
-    padding-left: 10px;
-    -webkit-box-shadow: 0 2.5px 2.5px 0 rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 2.5px 2.5px 0 rgba(0,0,0,0.2);
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
-}
-
-.option-button:hover {
-    -webkit-box-shadow: 0 2.5px 2.5px 0 rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 2.5px 2.5px 0 rgba(0,0,0,0.2);
-    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
-} */
-/* --------------------------------------------------------------------------------- */
 #dialogue-container {
-    max-width: 300px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 7.5px;
-    padding-right: 7.5px;
+    color: snow;
+    max-width: 90%;
+}
+
+#bot-prompt {
+    color: skyblue;
+}
+
+#user-prompt {
+    color: greenyellow;
 }
 
 .chat-header {
-    background-color: #02a4ef;
+    background-color: black;
     color: white;
-    font-size: x-large;
-    font-weight: semi-bold;
-    padding: 15px;
-    border-top-left-radius: 0.6rem;
+    padding: 0.5rem;
     border-top-right-radius: 0.6rem;
-    -webkit-box-shadow: 0 1.5px 1.5px 0 rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 1.5px 1.5px 0 rgba(0,0,0,0.2);
-    box-shadow: 0 1.5px 1.5px 0 rgba(0,0,0,0.2);
+    border-top-left-radius: 0.6rem;
+    font-size: x-large;
+    padding: 0.75rem;
 }
 
-.input {
-    margin-top: 10px;
-    z-index: 10;
-} 
-
-.msg {
-    background-color: #f7f7f7;
+.user-input {
+    background: none;
+    color: snow;
     border: none;
-    outline: none;
-    width: 200px;
-    height: 3.75rem;
-    margin-left: 1rem;
+    resize: none;
+    /* height: 11px;
+    margin: 0px; */
 }
 
-.send {
-    background-image: url('assets/send_icon.svg');
-    background-repeat: no-repeat;
-    background-color: #f7f7f7;
-    border: none;
-    width: 3rem;
-    height: 3rem;
-    float: right;
-    margin-right: 0.5rem;
-    margin-top: 5px;
-    border-radius: 100%;
-    -webkit-box-shadow: 0 2.5px 2.5px 0 rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 2.5px 2.5px 0 rgba(0,0,0,0.2);
-    box-shadow: 0 2.5px 2.5px 0 rgba(0,0,0,0.2);
+.dialogue {
+    margin-top: 0px; 
+    margin-left: 0px; 
+    margin-bottom: 0px; 
+    margin-right: 20px;
 }
 
-.send:hover {
-    -webkit-box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
-    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
+.dialogue p {
+    display: inline;
 }
 
-.sendmsg {
-    background-color: #f7f7f7;
-    margin-top: auto;
-    border-bottom-left-radius: 0.6rem;
-    border-bottom-right-radius: 0.6rem;    
-    -webkit-box-shadow: 0 1.5px 1.5px 0 rgba(0,0,0,0.2);
-    -moz-box-shadow: 0 1.5px 1.5px 0 rgba(0,0,0,0.2);
-    box-shadow: 0 -1.5px 1.5px 0 rgba(0,0,0,0.2);
-} 
+.bounds {
+    color: whitesmoke;
+}
+
+@media (max-width: 480px) {
+    * {
+        outline: none;
+        /* font-family: 'Ubuntu Mono', monospace; */
+        font-family: 'Source Code Pro', monospace;
+        font-size: small;
+    }
+
+    #chat-box {
+        width: 325px;
+        height: calc(270px + 65px + 3.75rem);
+    }
+
+    .bot-interface {
+        width: 325px;
+        height: calc(275px + 65px + 3.75rem);
+    }
+
+    .chatbot {
+        width: 300px;
+        height: calc(185px + 65px + 3.75rem);
+    }
+
+    .popup-button {
+        margin-top: calc(175px + 70.5px);
+    }
+
+    #dialogue-container {
+        color: snow;
+        max-width: 75%;
+    } 
+    
+    .chat-header {
+        font-size: large;
+    }
+
+    .bounds {
+        font-size: 12px;
+    }
+
+    .user-input {
+        width: 110px;
+    }
+}

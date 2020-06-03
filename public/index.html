@@ -10,31 +10,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/remarkable/1.7.1/remarkable.min.js"></script>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='bot.css')}}">
     <script src="{{url_for('static', filename='bot.js')}}"></script>
     <!-- <link rel="stylesheet" type="text/css" href='bot.css'>
     <script src='bot.js'></script> -->
   </head>
   <body>
-
     <div class="chatbot">
       <button class="popup-button" onclick="popupChat()"></button>
-
       <div class="bot-interface">
         <div class='chat-header'>
           <img src="{{url_for('static', filename='assets/chat_header_icon.svg')}}" width="20px">
-          Chat
+          <!-- <img src="assets/chat_header_icon.svg" width="20px"> -->
+          mspc/chat
           <button class="close-chat" onclick="closeChat()"></button>
         </div>
-        <div class='sendmsg'>
-          <form class='input' onsubmit="event.preventDefault(); askQuestion();">
-            <input type='text' class='msg'>
-            <input type='button' class='send' onclick="askQuestion();">
-          </form> 
-        </div>
         
+        <div id="chat-box">
+          <span class="bounds">*****************************************<br><span style="color: grey">@help - for special commands</span></span>
+
+          <div id="dialogue-container" class="user-input-dialogue">
+            <p class="dialogue" style="margin-top: 0px; margin-left: 0px; margin-bottom: 0px; margin-right: 20px;">
+              <form onsubmit="event.preventDefault(); askQuestion();" >
+                <label for="input">
+                  <span id="user-prompt">/user></span>
+                </label>
+                <input type=text size="25" name="input" class="user-input" autofocus></input>
+              </form>
+            </p>
+          </div>
+        
+        <span class="bounds">*****************************************</span>        
+      </div>
       </div>
     </div>
-
   </body>
 </html>
