@@ -155,8 +155,8 @@
     }
 
     #chat-box {
-        width: 325px;
-        height: calc(270px + 65px + 3.75rem);
+        width: 300px;
+        height: calc(200px + 65px + 3.75rem);
     }
 
     .bot-interface {
