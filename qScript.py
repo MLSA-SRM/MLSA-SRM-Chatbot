@@ -9,7 +9,6 @@ def ping_kb(question, host, POSTkey, key):
     # payload = "{\n\t\"question\": \"" + question + "\",\n\t\"top\": 4\n}"
     payload = json.dumps({
         "question": question,
-        "top": 4
     })
     headers = {
     'Authorization': key,
@@ -21,12 +20,12 @@ def ping_kb(question, host, POSTkey, key):
     data = res.read()
     _answer = json.loads(data.decode("utf-8"))
     # print(_answer)
-    possible_answers = [str(_answer['answers'][0]['answer']), str(_answer['answers'][1]['answer']), str(_answer['answers'][2]['answer']), str(_answer['answers'][3]['answer'])]
+    possible_answers = _answer['answers'][0]['answer'].split(' | ')
     return random.choice(possible_answers)
 
-# MSPC BOT Credentials
+# # MSPC BOT Credentials
 # host = "mspcbot-faq.azurewebsites.net"
-# POSTkey = '7a99f334-2fc0-4a6d-8a43-871b7562a34f'
+# POSTkey = '2be5dde2-29b4-4b60-820a-04a6acf34292'
 # key = 'EndpointKey d984024e-ca78-4394-8b1c-d96907585545'
 
 # question = "mspc lead"
