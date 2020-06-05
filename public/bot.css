@@ -101,7 +101,7 @@
 
 #dialogue-container {
     color: snow;
-    max-width: 90%;
+    max-width: 100%;
 }
 
 #bot-prompt {
@@ -175,7 +175,7 @@
 
     #dialogue-container {
         color: snow;
-        max-width: 75%;
+        max-width: 100%;
     } 
     
     .chat-header {
