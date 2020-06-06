@@ -25,7 +25,7 @@ def ping_kb(question, host, POSTkey, key):
     _answer = json.loads(data.decode("utf-8"))
     # print(_answer)
     reply = _answer['answers'][0]['answer']
-    if reply == "No good match found in KB":
+    if reply == "No good match found in KB.":
         possible_answers = def_case.split(' | ')
     else:
         possible_answers = reply.split(' | ')
