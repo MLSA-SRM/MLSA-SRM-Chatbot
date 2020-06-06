@@ -1,3 +1,7 @@
+#---Default Case Response------------------------
+def_case = "My responses are limited. | I can answer questions related to MSPC only. | Umm, don't really have much to say on that. | I am equipped to handle questions related to MSPC only. | That seems irrelevant to my purpose. | Don't have much to comment on that. | Okay, sure, cool. Next question? | My knowledge base is limited to MSPC only."
+#------------------------------------------------
+
 import http.client
 import mimetypes
 import json
@@ -20,7 +24,11 @@ def ping_kb(question, host, POSTkey, key):
     data = res.read()
     _answer = json.loads(data.decode("utf-8"))
     # print(_answer)
-    possible_answers = _answer['answers'][0]['answer'].split(' | ')
+    reply = _answer['answers'][0]['answer']
+    if reply == "No good match found in KB":
+        possible_answers = def_case.split(' | ')
+    else:
+        possible_answers = reply.split(' | ')
     return random.choice(possible_answers)
 
 # # MSPC BOT Credentials
