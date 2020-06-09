@@ -169,6 +169,13 @@ function botMessage (msg) {
     chat_log.push({
         "bot": mainPara.innerText.toString() 
     });
+
+    var links= document.getElementsByTagName('a');
+    if (links.length) {
+        for (var i=0; i<links.length; i++){
+            links[i].setAttribute('target', '_blank');
+        }
+    }
 }
 
 function userMessage (msg) {
