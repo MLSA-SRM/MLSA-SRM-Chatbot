@@ -9,7 +9,7 @@ function botCommand(cmd) {
 
     switch (cmd.toString()) {
         case "help":
-            botMessage('Following Commands available:<br>@clear - clear current chat<br>@quit - close chatbot');
+            botMessage("You can ask questions related to the club. We will try our best to answer them :)<br>Following Commands are also available for convenience:<br>@clear - clear current chat<br>@quit - close chatbot");
             break;
         case "clear": 
             closeChat();
