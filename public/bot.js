@@ -1,7 +1,8 @@
 // // // variables
-// // var input_mode = 'feedback';
+// // var input_mode = 'question';
 // // var positive_sentiment = 'Thank you for the feedback! We work hard to get the best experience and try to hit the mark for you. Hoping to see you in the upcoming events by MSPC!';
 // // var negative_sentiment = 'Kindly receive our apologies for the inconvenience caused. We are constantly making progress to enhance your experience. We appreciate your valuable feedback.';
+var feedback_mode = false;
 // // // -------
 
 function botCommand(cmd) {
@@ -9,7 +10,11 @@ function botCommand(cmd) {
 
     switch (cmd.toString()) {
         case "help":
-            botMessage("You can ask questions related to the club. We will try our best to answer them :)<br>Following Commands are also available for convenience:<br>@clear - clear current chat<br>@quit - close chatbot");
+            botMessage("You can ask questions related to the club. We will try our best to answer them :)<br>Following Commands are also available for convenience:<br>@feedback - give feedback<br>@clear - clear current chat<br>@quit - close chatbot");
+            break;
+        case "feedback":
+            botMessage("Your feedback is always welcome");
+            feedback_mode = true;
             break;
         case "clear": 
             closeChat();
@@ -40,70 +45,13 @@ function popupChat () {
         // presentButtonOptions();
 }
 
-// function spawnInput () {
-//     var inputDiv = document.createElement('div');
-//     inputDiv.className = "row p-0 justify-content-md";
-//     inputDiv.id = "bot-dialogue";
-
-//     var inputCol = document.createElement('div');
-//     inputCol.className = "col-sm-auto p1";
-    
-//     var dialCont = document.createElement('div');
-//     dialCont.id = "dialogue-container";
-
-//     var paraElem = document.createElement('p');
-//     paraElem.className = "dialogue"
-//     paraElem.style = "margin-top: 0px; margin-left: 0px; margin-bottom: 0px; margin-right: 20px;";
-    
-//     var formInpu = document.createElement('form');
-
-//     var labelInp = document.createElement('label');
-//     labelInp.htmlFor = "input";
-
-//     var spanInpu = document.createElement('span');
-//     spanInpu.id = "user-prompt";
-//     var promptText = document.createTextNode('~/user>');
-
-//     var inpuInp = document.createElement('input');
-//     inpuInp.type = 'text';
-//     inpuInp.size = '25';
-//     inpuInp.name = 'input';
-//     inpuInp.class = 'user-input';    
-// }
-
 function closeChat () {
     var bot_interface = document.getElementsByClassName('bot-interface')[0];
     var chat_box = document.getElementById('chat-box');
-    
-    storeChat();
 
     document.getElementById('chat-holder').remove();
     bot_interface.style.display = 'none';
 }
-
-// // function storeFeedback (feedback, pred_senti) {
-// //     thisFeedback = JSON.stringify({
-// //         "timestamp": (new Date()).getTime(),
-// //         "feedback": feedback,
-// //         "pred_senti": pred_senti
-// //     });
-
-// //     console.log(thisFeedback);
-
-// //     var myHeaders = new Headers();
-// //     myHeaders.append("Content-Type", "text/plain");
-
-// //     var requestOptions = {
-// //         method: 'POST',
-// //         headers: myHeaders,
-// //         body: JSON.stringify(thisFeedback)
-// //     };
-
-// //     fetch("http://localhost:5000/botadmin/logs/feedback", requestOptions)
-// //     .then(response => response.text())
-// //     .then(result => console.log(result))
-// //     .catch(error => console.log('error', error));
-// // }
 
 function storeChat (chat_box) {
         var diaList = chat_log;
@@ -126,7 +74,7 @@ function storeChat (chat_box) {
         };
 
         // fetch("http://localhost:5000/botadmin/logs/chat", requestOptions)
-        fetch("https://mspcbotmain.azurewebsites.net/botadmin/logs/chat", requestOptions)
+        fetch("https://mspcchatbot.azurewebsites.net/botadmin/logs/chat", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -302,89 +250,53 @@ function askQuestion() {
     inputField.value = '';
     if (msg[0] != '@') {
         if (msg.toString() != "") {
-            // if (input_mode == 'question') {
-
-            
-            payload = {
-                "data": {
-                    "question": '"' + msg.toString() + '"',
-                    "host": "mspcbot-faq.azurewebsites.net",
-                    "POSTkey": "2be5dde2-29b4-4b60-820a-04a6acf34292",
-                    "key": "EndpointKey d984024e-ca78-4394-8b1c-d96907585545"
+            if (!feedback_mode) {
+                payload = {
+                    "data": {
+                        "question": '"' + msg.toString() + '"',
+                        "host": "mspcbot-faq.azurewebsites.net",
+                        "POSTkey": "2be5dde2-29b4-4b60-820a-04a6acf34292",
+                        "key": "EndpointKey d984024e-ca78-4394-8b1c-d96907585545"
+                    }
                 }
+            
+                var myHeaders = new Headers();
+                myHeaders.append("Content-Type", "text/plain");
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: JSON.stringify(payload)
+                };
+        
+                userMessage(msg);
+        
+                // fetch("http://localhost:5000/botservice/question", requestOptions)
+                fetch("https://mspcchatbot.azurewebsites.net/botservice/question", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    var md = new Remarkable();
+                    text = md.render(result['reply']);
+                    botMessage(text);
+                    // inputField.style.display = "inline";
+                    prompt.style.display = "inline";
+                    inputField.focus();
+                })
+                .catch(error => {
+                    console.log('error', error);
+                    botMessage("I couldn't quite understand that.");
+                    prompt.style.display = "inline";
+                    inputField.focus();
+                });
+    
+            } 
+            if (feedback_mode) {
+                storeChat();    
+                input_mode = 'question';
+                botMessage("Thank you for your feedback! Need help with something else?");
+                prompt.style.display = "inline";
+                inputField.focus();
             }
-        
-            var myHeaders = new Headers();
-            myHeaders.append("Content-Type", "text/plain");
-            var requestOptions = {
-                method: 'POST',
-                headers: myHeaders,
-                body: JSON.stringify(payload)
-            };
-    
-            userMessage(msg);
-    
-            // fetch("http://localhost:5000/botservice/question", requestOptions)
-            fetch("https://mspcbotmain.azurewebsites.net/botservice/question", requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                var md = new Remarkable();
-                text = md.render(result['reply']);
-                botMessage(text);
-                // inputField.style.display = "inline";
-                prompt.style.display = "inline";
-                inputField.focus();
-            })
-            .catch(error => {
-                console.log('error', error);
-                botMessage("I couldn't quite understand that.");
-                prompt.style.display = "inline";
-                inputField.focus();
-            });
-    
-    
-    
-        //     } 
-        //     if (input_mode == 'feedback') {
-        //         document.getElementsByClassName('msg')[0].value = '';
-    
-        //         var myHeaders = new Headers();
-        //         myHeaders.append("Authorization", "EndpointKey f7562a24-429f-4ea8-8512-dafb1bdcf64b");
-        //         myHeaders.append("Content-Type", "application/json");
-    
-        //         payload = {
-        //             "data": {
-        //                 "feedback": {
-        //                     "value": '"' + msg.toString() + '"'
-        //                 }
-        //             }
-        //         }
-    
-        //         var requestOptions = {
-        //             method: 'POST',
-        //             headers: myHeaders,
-        //             body: JSON.stringify(payload),
-        //         };
-    
-        //         userMessage(msg);
-        //         fetch("http://localhost:5000/botservice/feedback", requestOptions)
-        //         .then(response => response.json())
-        //         .then(result => {
-        //             input_mode = 'question';
-    
-        //             if(result['reply'].toString() == '1') {
-        //                 botMessage(positive_sentiment);
-        //             } else if (result['reply'].toString() == '0') {
-        //                 botMessage(negative_sentiment);
-        //             }
-        //             storeFeedback(msg.toString(), result['reply']);
-        //             botMessage('Want to know anything else?')
-        //         })
-        //         .catch(error => console.log('error', error));
-    
-        //     }
         }
-        
     } else if (msg[0] == '@') {
         userMessage(msg);
         botCommand(msg.slice(1, msg.length));

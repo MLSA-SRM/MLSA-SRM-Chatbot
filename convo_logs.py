@@ -1,14 +1,16 @@
 # MySQL Database Variables-----
-database = 'chatbotdb'
+# database = 'chatbotdb'
 # feedback_table = 'feedback_logs'
-convo_table = 'convo_logs'
+# convo_table = 'convo_logs'
 debug_mode = False
 #------------------------------
-import mysql.connector
+# import mysql.connector
 import json
+import smtplib
 from datetime import datetime
 from datetime import timedelta
-from settings import SQL_DB, SQL_HOST, SQL_PORT, SQL_PWD, SQL_USER
+from settings import MAIL_USER_ID, MAIL_USER_PWD
+# from settings import SQL_DB, SQL_HOST, SQL_PORT, SQL_PWD, SQL_USER
 
 #----potential feedback system logs----------------------------------------------------------------------------
 # def storeNewFeedbackLog(_log):
@@ -43,34 +45,63 @@ from settings import SQL_DB, SQL_HOST, SQL_PORT, SQL_PWD, SQL_USER
 #     except:
 #         return False
 
-def storeNewChat(_log):
-    mydb = mysql.connector.connect(
-        user=SQL_USER, 
-        password=SQL_PWD, 
-        host=SQL_HOST, 
-        port=SQL_PORT, 
-        database=SQL_DB
-    )
+# def storeNewChat(_log):
+#     mydb = mysql.connector.connect(
+#         user=SQL_USER, 
+#         password=SQL_PWD, 
+#         host=SQL_HOST, 
+#         port=SQL_PORT, 
+#         database=SQL_DB
+#     )
 
-    mycursor = mydb.cursor(buffered=True)
-    log = json.loads(_log)
-    log = json.loads(log)
-    timestamp = datetime.now() + timedelta(hours=5)
-    timestamp = timestamp + timedelta(minutes=30)
-    dialogue = (json.dumps(log['dialogue'])).replace('"', '')
+#     mycursor = mydb.cursor(buffered=True)
+#     log = json.loads(_log)
+#     log = json.loads(log)
+#     timestamp = datetime.now() + timedelta(hours=5)
+#     timestamp = timestamp + timedelta(minutes=30)
+#     dialogue = (json.dumps(log['dialogue'])).replace('"', '')
 
-    query_insert = 'INSERT INTO {db}.{table} (time_stamp, convo)'.format(db=database, table=convo_table)
-    query_insert = query_insert + 'VALUES ("{time}", "{dia}");'.format(time=timestamp, dia=dialogue)
+#     query_insert = 'INSERT INTO {db}.{table} (time_stamp, convo)'.format(db=database, table=convo_table)
+#     query_insert = query_insert + 'VALUES ("{time}", "{dia}");'.format(time=timestamp, dia=dialogue)
 
+#     try:
+#         mycursor.execute(query_insert)
+#         mycursor.execute('SELECT * FROM {db}.{table};'.format(db=database, table=convo_table))
+#         if debug_mode:
+#             print('Ran SQL')
+#         for x in mycursor:
+#             print(x)
+#         mydb.commit()
+#         mydb.close()
+#         return True
+#     except:
+#         return False
+
+def storeNewChat (_log):
     try:
-        mycursor.execute(query_insert)
-        mycursor.execute('SELECT * FROM {db}.{table};'.format(db=database, table=convo_table))
-        if debug_mode:
-            print('Ran SQL')
-        for x in mycursor:
-            print(x)
-        mydb.commit()
-        mydb.close()
+        log = json.loads(_log)
+        log = json.loads(log)
+        timestamp = datetime.now() + timedelta(hours=5)
+        timestamp = timestamp + timedelta(minutes=30)
+        dialogue = (json.dumps(log['dialogue'])).replace('"', '')
+        
+        TO = 'contact@msclubsrm.in'
+        SUBJECT = "Feedback " + str(timestamp)
+        server = smtplib.SMTP('smtp.zoho.in', 587)
+        server.ehlo()
+        server.starttls()
+        server.login(MAIL_USER_ID, MAIL_USER_PWD)
+
+        TEXT = str(timestamp) + " | " + dialogue
+
+        BODY = '\r\n'.join(['To: %s' % TO,
+                'From: %s' % MAIL_USER_ID,
+                'Subject: %s' % SUBJECT,
+                '', TEXT])
+
+        server.sendmail(MAIL_USER_ID, [TO], BODY)
+        print ('chat mailed')
         return True
     except:
+        print ('error mailing chat')
         return False

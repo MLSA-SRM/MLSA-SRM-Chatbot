@@ -4,7 +4,6 @@ Flask-Cors==3.0.8
 itsdangerous==1.1.0
 Jinja2==2.11.2
 MarkupSafe==1.1.1
-mysql-connector-python==8.0.20
 protobuf==3.12.1
 python-dotenv==0.13.0
 six==1.15.0
