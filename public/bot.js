@@ -290,6 +290,7 @@ function askQuestion() {
     
             } 
             if (feedback_mode) {
+                userMessage(msg);
                 storeChat();    
                 input_mode = 'question';
                 botMessage("Thank you for your feedback! Need help with something else?");
