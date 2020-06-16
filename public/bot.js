@@ -296,6 +296,7 @@ function askQuestion() {
                 botMessage("Thank you for your feedback! Need help with something else?");
                 prompt.style.display = "inline";
                 inputField.focus();
+                feedback_mode = false;
             }
         }
     } else if (msg[0] == '@') {
