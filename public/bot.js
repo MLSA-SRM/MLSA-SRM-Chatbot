@@ -33,7 +33,7 @@ function botCommand(cmd) {
 chat_log = [];
 
 function popupChat() {
-	document.getElementsByClassName('events_btn_img_stda').style.zIndex = '1';
+	document.getElementsByClassName('events_btn_cer').style.zIndex = '1';
 	var bot_interface = document.getElementsByClassName('bot-interface')[0];
 	bot_interface.style.display = 'block';
 
@@ -49,7 +49,7 @@ function popupChat() {
 }
 
 function closeChat() {
-	document.getElementsByClassName('events_btn_img_stda').style.zIndex = '6';
+	document.getElementsByClassName('events_btn_cer').style.zIndex = '6';
 	var bot_interface = document.getElementsByClassName('bot-interface')[0];
 	var chat_box = document.getElementById('chat-box');
 
