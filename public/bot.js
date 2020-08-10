@@ -97,7 +97,7 @@ function botMessage(msg) {
 	var spanT = document.createElement('span');
 	spanT.id = 'bot-prompt';
 
-	var botPrompt = document.createTextNode('/mspc> ');
+	var botPrompt = document.createTextNode('/atlas> ');
 	spanT.appendChild(botPrompt);
 
 	dialogue.appendChild(spanT);
