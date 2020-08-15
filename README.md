@@ -1,8 +1,5 @@
 # MLSA-SRM's Chatbot Service
 This is a service built for answering Frequently Answered Questions for a closed domain using Azure's Cognitive Search (read more about it [here](https://azure.microsoft.com/en-in/services/search/?&ef_id=CjwKCAjwj975BRBUEiwA4whRB-5jOGCgZSinSTmb25zyYjWvE0OQY9vfyHfQQaS-SWMx-ltkJoGWvhoC81gQAvD_BwE:G:s&OCID=AID2100054_SEM_CjwKCAjwj975BRBUEiwA4whRB-5jOGCgZSinSTmb25zyYjWvE0OQY9vfyHfQQaS-SWMx-ltkJoGWvhoC81gQAvD_BwE:G:s&dclid=CjgKEAjwj975BRDai_erl_Px9kESJAC8MkHjSIZwhFYXqqzV6B4imhENJxESkS3wmNvRgiIzaOT2A_D_BwE)) to find answers in generally formatted documents (e.g. Product Manuals or Club Manifests). A default instance is currently deployed at [our website](https://msclubsrm.in). This service can be instantiated and customised as per need.
-<br>
-<br>
-For more info, or having a chatbot of your own - contact us: [Microsoft Learn Student Ambassadors SRM](https://msclubsrm.in)
 
 ## Built With
 | Software | Version |
@@ -47,3 +44,6 @@ MAIL_USER_PWD=exampleemailpwd
 python app.py
 ```
 * In your browser open http://localhost:5000 (or `:{port-number}` as specified by the Flask's development server)
+
+## More Info
+For more info, or having a chatbot of your own - contact us: [Microsoft Learn Student Ambassadors SRM](https://msclubsrm.in)
