@@ -79,7 +79,7 @@ function storeChat(chat_box) {
 	};
 
 	// fetch("http://localhost:5000/botadmin/logs/chat", requestOptions)
-	fetch('https://mspcchatbot.azurewebsites.net/botadmin/logs/chat', requestOptions)
+	fetch('https://mlsabot.azurewebsites.net/botadmin/logs/chat', requestOptions)
 		.then((response) => response.text())
 		.then((result) => console.log(result))
 		.catch((error) => console.log('error', error));
@@ -273,7 +273,7 @@ function askQuestion() {
 				userMessage(msg);
 
 				// fetch("http://localhost:5000/botservice/question", requestOptions)
-				fetch('https://mspcchatbot.azurewebsites.net/botservice/question', requestOptions)
+				fetch('https://mlsabot.azurewebsites.net/botservice/question', requestOptions)
 					.then((response) => response.json())
 					.then((result) => {
 						var md = new Remarkable();
