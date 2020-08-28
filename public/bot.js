@@ -15,7 +15,7 @@ function botCommand(cmd) {
 			);
 			break;
 		case 'feedback':
-			botMessage('Your feedback is always welcome');
+			botMessage('Your next message will be recorded as feedback.');
 			feedback_mode = true;
 			break;
 		case 'clear':
